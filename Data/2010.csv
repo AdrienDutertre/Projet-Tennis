@@ -1,0 +1,70 @@
+ATP,Start Date,Tournament,Venue,Location,Series,Court,Surface,Players
+1,30/12/2002,,Adelaide,Australia,International Series,Outdoor,Hard,32
+2,30/12/2002,,Doha,Qatar,International Series,Outdoor,Hard,32
+3,30/12/2002,,Chennai,India,International Series,Outdoor,Hard,32
+4,06/01/2003,,Auckland,New Zealand,International Series,Outdoor,Hard,32
+5,06/01/2003,,Sydney,Australia,International Series,Outdoor,Hard,32
+6,13/01/2003,,Australian Open,Australia,Grand Slam,Outdoor,Hard,128
+7,27/01/2003,,Milan,Italy,International Series,Indoor,Carpet,32
+8,10/02/2003,,San Jose,"CA, U.S.A.",International Series,Indoor,Hard,32
+9,10/02/2003,,Marseille,France,International Series,Indoor,Hard,32
+10,10/02/2003,,Vina del Mar,Chile,International Series,Outdoor,Clay,32
+11,17/02/2003,,Memphis,"TN, U.S.A.",International Series Gold,Indoor,Hard,32
+12,17/02/2003,,Rotterdam,The Netherlands,International Series Gold,Indoor,Hard,32
+13,17/02/2003,,Buenos Aires,Argentina,International Series,Outdoor,Clay,32
+14,24/02/2003,,Dubai,U.A.E.,International Series Gold,Outdoor,Hard,32
+15,24/02/2003,,Acapulco,Mexico,International Series Gold,Outdoor,Clay,32
+16,24/02/2003,,Copenhagen,Denmark,International Series,Indoor,Hard,32
+17,03/03/2003,,Scottsdale,"AZ, U.S.A.",International Series,Outdoor,Hard,32
+18,03/03/2003,,Delray Beach,"FL, U.S.A.",International Series,Outdoor,Hard,32
+19,10/03/2003,,Pacific Life Open,"California, USA",Tennis Masters Series,Outdoor,Hard,64
+20,17/03/2003,,NASDAQ-100 Open ,"FL, U.S.A.",Tennis Masters Series,Outdoor,Hard,96
+21,07/04/2003,,Casablanca,Morocco,International Series,Outdoor,Clay,32
+22,07/04/2003,,Estoril,Portugal,International Series,Outdoor,Clay,32
+23,14/04/2003,,Tennis Masters Monte-Carlo,Monaco,Tennis Masters Series,Outdoor,Clay,64
+24,21/04/2003,,Barcelona,Spain,International Series Gold,Outdoor,Clay,56
+25,21/04/2003,,Houston,"TX, U.S.A.",International Series,Outdoor,Clay,32
+26,28/04/2003,,Munich,Germany,International Series,Outdoor,Clay,32
+27,28/04/2003,,Mallorca,Spain,International Series,Outdoor,Clay,32
+28,05/05/2003,,Telecom Italia Masters-Roma,Italy,Tennis Masters Series,Outdoor,Clay,64
+29,12/05/2003,,Hamburg TMS,Germany,Tennis Masters Series,Outdoor,Clay,64
+30,19/05/2003,,St. Pölten,Austria,International Series,Outdoor,Clay,32
+31,19/05/2003,,ATP World Team Championship,"Dusseldorf, Germany",World Team Cup,Outdoor,Clay,64
+32,26/05/2003,,Roland Garros,France,Grand Slam,Outdoor,Clay,128
+33,09/06/2003,,London / Queen's Club,England,International Series,Outdoor,Grass,56
+34,09/06/2003,,Halle,Germany,International Series,Outdoor,Grass,32
+35,16/06/2003,,'s-Hertogenbosch,The Netherlands,International Series,Outdoor,Grass,32
+36,16/06/2003,,Nottingham,England,International Series,Outdoor,Grass,32
+37,23/06/2003,,Wimbledon,England,Grand Slam,Outdoor,Grass,128
+38,07/07/2003,,Gstaad,Switzerland,International Series,Outdoor,Clay,32
+39,07/07/2003,,Newport,"RI, U.S.A.",International Series,Outdoor,Grass,32
+40,07/07/2003,,Bastad,Sweden,International Series,Outdoor,Clay,32
+41,14/07/2003,,Amersfoort,The Netherlands,International Series,Outdoor,Clay,32
+42,14/07/2003,,Stuttgart,Germany,International Series Gold,Outdoor,Clay,48
+43,21/07/2003,,Kitzbühel,Austria,International Series Gold,Outdoor,Clay,48
+44,21/07/2003,,Indianapolis,"IN, U.S.A.",International Series,Outdoor,Hard,48
+45,21/07/2003,,Umag,Croatia,International Series,Outdoor,Clay,32
+46,28/07/2003,,Washington,"DC, U.S.A.",International Series,Outdoor,Hard,48
+47,28/07/2003,,Los Angeles,"CA, U.S.A.",International Series,Outdoor,Hard,32
+48,28/07/2003,,Sopot,"Sopot, Poland",International Series,Outdoor,Clay,32
+49,04/08/2003,,Tennis Masters Canada,"Montreal, Canada",Tennis Masters Series,Outdoor,Hard,64
+50,11/08/2003,,Western & Southern Financial Group Masters-Cincinnati,"Ohio, USA",Tennis Masters Series,Outdoor,Hard,64
+51,18/08/2003,,Long Island,"New York, USA",International Series,Outdoor,Hard,48
+52,25/08/2003,,US Open,"NY, U.S.A.",Grand Slam,Outdoor,Hard,128
+53,08/09/2003,,Beijing,China,International Series,Outdoor,Hard,32
+54,08/09/2003,,Costa Do Sauipe,Brasil,International Series,Outdoor,Hard,32
+55,08/09/2003,,Bucharest,Romania,International Series,Outdoor,Clay,32
+56,22/09/2003,,Palermo,Italy,International Series,Outdoor,Clay,32
+57,22/09/2003,,Bangkok,Thailand,International Series,Indoor,Hard,32
+58,22/09/2003,,Shanghai,China,International Series,Outdoor,Hard,32
+59,29/09/2003,,Tokyo Outdoor,Japan,International Series Gold,Outdoor,Hard,56
+60,29/09/2003,,Metz,"Metz, France",International Series,Indoor,Hard,32
+61,29/09/2003,,Moscow,Russia,International Series,Indoor,Carpet,32
+62,06/10/2003,,Vienna,Austria,International Series Gold,Indoor,Hard,32
+63,06/10/2003,,Lyon,France,International Series,Indoor,Carpet,32
+64,13/10/2003,,Tennis Masters Madrid,"Madrid, Spain",Tennis Masters Series,Indoor,Hard,48
+65,20/10/2003,,Basel,Switzerland,International Series,Indoor,Carpet,32
+66,20/10/2003,,Stockholm,Sweden,International Series,Indoor,Hard,32
+67,20/10/2003,,St. Petersburg,Russia,International Series,Indoor,Hard,32
+68,27/10/2003,,BNP Paribas Masters-Paris,France,Tennis Masters Series,Indoor,Carpet,48
+69,10/11/2003,,Tennis Masters Cup,"Houston, TX, USA",Year-End Championship,Indoor,Hard,8
