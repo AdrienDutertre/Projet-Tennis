@@ -18,6 +18,9 @@ def getAllMatchsForASpecificPeriod(years) :
 		# Récupération des données brutes de l'année correspondante
 		currentYearRawDf = pd.read_csv('Data/' + str(year) + '.csv')
 
+		# On met à 0 les valeurs nan dans les colonnes Set1
+		currentYearRawDf.fillna(value={'WRank':100000000, 'LRank':100000000, 'W1':0, 'L1':0, 'W2':0, 'L2':0, 'W3':0, 'L3':0, 'W4':0, 'L4':0, 'W5':0, 'L5':0}, inplace=True)
+
 		# On ne garde que les colonnes qui sont communes à tous les csv 
 		listOfYearMatchs.append( currentYearRawDf[commonColumns] )
 
@@ -30,13 +33,18 @@ def standardizeDataFrame(dataframe) :
 
 	# Liste des remplacements sur chaque colonne 
 	standardizationDict = {'Surface': {'Carpet': 'Hard'},
-						   'Series': {'International Gold': 'ATP500', 'International Series': 'ATP250', 'International': 'ATP250', 'Masters': 'Masters 1000' },
-						   'Winner': {r'\s$': ''},
-						   'Loser': {r'\s$': ''} }
+						   'Series': {r'^International Gold$': 'ATP500', r'^International Series$': 'ATP250', r'^International$': 'ATP250', r'^Masters$': 'Masters 1000' },
+						   'J0': {r'\s$': ''},
+						   'J1': {r'\s$': ''},
+						   'J0Rank': {'NR': '100000000'},
+						   'J1Rank': {'NR': '100000000'}
+						   }
 
 	dataframe.replace(to_replace=standardizationDict, inplace=True, regex=True)
-	
-	return dataframe 
+
+	# Enfin on supprime tous les matchs pour lesquels on n'a pas eu d'infos sur le classement du joueur
+	dataframe[ ['J0Rank', 'J1Rank'] ] = dataframe[ ['J0Rank', 'J1Rank'] ].astype(dtype=int)
+	return dataframe[ (dataframe['J0Rank'] < 100000000) & (dataframe['J1Rank'] < 100000000) ]
 
 
 # Randomise la base : Remplacement de Winner et Loser par J0 et J1 et ajout d'une classe Winner qui vaudra 0 ou 1 
@@ -56,29 +64,11 @@ def randomizeDataFrame(dataframe) :
 	dataframe.loc[randomVector, columnsInInitialOrder] = dataframe.loc[randomVector, columnsInPermutedOrder].values 
 
 	# Enfin il ne reste plus qu'à ajouter une colonne indiquant le joueur gagnant qui sera winnerPlayer
-	dataframe['Winner'] = pd.Series(winnerPlayer)
+	#dataframe['Winner'] = pd.Series(winnerPlayer).values.copy()
+	dataframe['Winner'] = winnerPlayer
 
 	return dataframe
 
-# Test : retourne un dataframe de features basiques 
-def getBasicsFeatures(row) : 
-
-	return row[ ['J0', 'J1'] ]
-	
-
-"""
-	Test : retourne un dataframe de features basiques pour la régression logistique
- 	Chaque ligne representera un match et contiendra les features suivantes :
- 	[semaineAnnée, Surface, CatégorieTournoi, ClassementJ1, ClassementJ2, Nombre de sets gagnants]
-	La classe a prédire sera donc Winner qui vaudra 0 si J0 a gagné et 1 sinon 
-"""
-def getBasicsFeaturesFromDataFrame(dataframe) : 
-
-	basicFeatures = dataframe[ ['Date', 'Series', 'Round', 'Surface', 'Court', 'J0Rank', 'J1Rank', 'Best of', 'Winner'] ]
-	basicFeatures.loc[:, 'Date'] = pd.Series( pd.to_datetime( basicFeatures.loc[:, 'Date'].values, dayfirst=True ) )
-	basicFeatures.loc[:, 'Date'] = basicFeatures['Date'].apply( lambda x : x.to_datetime().isocalendar()[1] )
-
-	return basicFeatures
 
 
 startingYear = 2000
@@ -87,21 +77,13 @@ normalizedMatchsFile = "Data/allData.csv"
 normalizedAndRandomizedMatchsFile = "Data/allDataRandomized.csv"
 
 print "\nConcaténation de tous les matchs de " + str(startingYear) + " à " + str(endingYear)
-testData = getAllMatchsForASpecificPeriod( range(startingYear, endingYear+1) )
-
-print "\nNormalisation des matchs"
-testData = standardizeDataFrame(testData)
-
-print "\nEcriture du fichier contenant tous les matchs de " + str(startingYear) + " à " + str(endingYear) + " : " + normalizedMatchsFile
-testData.to_csv(normalizedMatchsFile)
+allMatchsData = getAllMatchsForASpecificPeriod( range(startingYear, endingYear+1) )
 
 print "\nRandomisation des matchs"
-testData = randomizeDataFrame(testData)
+randomizedData = randomizeDataFrame(allMatchsData)
+
+print "\nNormalisation des matchs"
+standardizedData = standardizeDataFrame(randomizedData)
 
 print "\nEcriture du fichier contenant tous les matchs randomisés de " + str(startingYear) + " à " + str(endingYear) + " : " + normalizedAndRandomizedMatchsFile
-testData.to_csv(normalizedAndRandomizedMatchsFile)
-
-### TEST DES FEATURES BASIQUES : Développement en cours => Ne fonctionne pas encore...
-#test = getBasicsFeaturesFromDataFrame(testData)
-#print test
-###
+standardizedData.to_csv(normalizedAndRandomizedMatchsFile)
