@@ -24,9 +24,8 @@ Le schéma SQL retenu est alors le suivant :
 
 Enchaînement des scripts 
 ------------------------
+Pour obtenir la version SQL en partant des données brutes il faut respecter l'enchaînement suivant
 
-Pour obtenir la version SQL en partant des données brutes il faut respecter 
-l'enchaînement suivant : 
 1. extractRanking
 2. mergeRanking
 3. extractPlayersInfo
