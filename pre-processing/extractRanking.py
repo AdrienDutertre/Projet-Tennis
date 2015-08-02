@@ -17,6 +17,9 @@ import re
 from pandas import Series, DataFrame
 import pandas as pd 
 
+import extendedSysPath
+from config import Config as conf
+
 ################################################################################################
 # Some String manipulation functions
 
@@ -48,7 +51,7 @@ def getSoupFromUrl(url):
 # Find Date
 
 def getDateForRanking():
-	soup = getSoupFromUrl("http://www.atpworldtour.com/Rankings/Singles.aspx")
+	soup = getSoupFromUrl(conf.atpRankingsUrl)
 	dateBalise = soup.find_all("div", class_="playerBioFilterItem")[0].find_all("option")[0:1287]
 	dateList = map(lambda x:normalize(x.text),dateBalise)
 	return dateList
@@ -61,7 +64,7 @@ def getRankingForDate(date,linkData):
 	rankingData={}
 	for i in range (0,10):
 		rankNumber = i*100+1
-		soup = getSoupFromUrl("http://www.atpworldtour.com/Rankings/Singles.aspx?d="+date+"&r="+str(rankNumber)+"&c=#")
+		soup = getSoupFromUrl(conf.atpRankingsUrl+"?d="+date+"&r="+str(rankNumber)+"&c=#")
 		table = soup.find("tbody")
 		lines = table.find_all("tr")
 		#print i

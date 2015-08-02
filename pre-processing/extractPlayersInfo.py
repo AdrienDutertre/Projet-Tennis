@@ -18,6 +18,9 @@ from pandas import Series, DataFrame
 import pandas as pd 
 import numpy as np
 
+import extendedSysPath
+from config import Config as conf
+
 ################################################################################################
 # Some String manipulation functions
 
@@ -49,7 +52,7 @@ def getSoupFromUrl(url):
 # Find Date
 
 def getPlayerInfo(partUrl):
-	soup = getSoupFromUrl("http://www.atpworldtour.com"+partUrl)
+	soup = getSoupFromUrl(conf.atpUrl+partUrl)
 	playerInfoCard = soup.find("div",id="playerBioInfoCardMain")
 	playerInfoList = playerInfoCard.find("ul",id="playerBioInfoList").find_all("li")
 	playerInfoListNormalized={}
@@ -70,6 +73,6 @@ def getPlayerInfo(partUrl):
 	return res
 
 InfoList = ['Age','Birthplace', 'Residence','Height','Weight','Plays','Turned Pro','Coach','Country']
-df = pd.read_csv('Data/playersRank.csv')
+df = pd.read_csv(conf.preProcessedRankingsFilePath)
 df[InfoList] = df.apply(lambda x : getPlayerInfo(x['link']),axis=1)
-df.to_csv('Data/playersRankInfo.csv')
+df.to_csv(conf.preProcessedPlayersFilePath)

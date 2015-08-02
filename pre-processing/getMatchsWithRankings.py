@@ -6,22 +6,15 @@ import random
 import re
 import sys
 
+import extendedSysPath
+from config import Config as conf
+
 
 def concatenateAllYears(years) : 
 
-	listOfYearMatchs = []
-
-	# Boucle sur toutes les années spécifiées en argument de la fonction 
-	for year in years : 
-
-		# Récupération des données brutes de l'année correspondante
-		currentYearRawDf = pd.read_csv('Data/matches_data_file' + str(year) + '.csv')
-
-		# On ne garde que les colonnes qui sont communes à tous les csv 
-		listOfYearMatchs.append( currentYearRawDf )
-
-	# On retourne la concaténation de toutes ces données 
-	return pd.concat(listOfYearMatchs, ignore_index=True)
+	filePathes = [conf.dataDir+"/matches_data_file"+str(year)+".csv" for year in years]
+	dataframes = [pd.read_csv(filepath) for filepath in filePathes]
+	return pd.concat(dataframes, ignore_index=True)
 
 
 def normalizePlayerName(row) :
@@ -85,7 +78,6 @@ def getScoreColumns(row) :
 		sets["comment"] = "RET"
 
 	# Extraction des sets 
-	# print "Match " + row["playerA"] + "/" + row["playerB"] + " : " + str(scoreText.split(";"))
 	setsRaw = scoreText.split(";")
 	nbSets = len(setsRaw)
 	
@@ -212,8 +204,8 @@ def getPlayerRanking(player, dateAsked, rankingsDF) :
 
 # Paramètres du programme
 dates = range(1991, 2015)
-csvOutputFilePath = "Data/allYearsMunged.csv"
-csvRankingsFilePath = "Data/playersRank.csv"
+csvOutputFilePath = conf.preProcessedMatchsFilePath
+csvRankingsFilePath = conf.preProcessedRankingsFilePath
 
 atp500Tournaments = {
 1991: ["Philadelphia","Barcelona","Tokyo Outdoor","Stuttgart Outdoor","Washington","Indianapolis","New Haven","Brussels","Sydney Indoor","Tokyo Indoor","Stuttgart Indoor","Memphis"],
@@ -245,7 +237,7 @@ atp500Tournaments = {
 
 
 # Lecture de toutes les années 
-print "Concaténation de toutes les années de " + str(dates[0]) + " à " + str(dates[len(dates)-1]) + " : "
+print "\nConcaténation de toutes les années de " + str(dates[0]) + " à " + str(dates[len(dates)-1])
 sys.stdout.flush()
 totalDF = concatenateAllYears(dates)
 
@@ -255,7 +247,7 @@ sys.stdout.flush()
 rankingsDF = readRankingsCsv(csvRankingsFilePath)
 
 # On extraie les catégories de chaque tournoi
-print "Extraction des catégories : "
+print "Extraction des catégories"
 sys.stdout.flush() 
 totalDF["category"] = totalDF.apply(getCategory, axis=1)
 
@@ -266,12 +258,12 @@ scoreColumns = totalDF.apply(getScoreColumns, axis=1)
 totalDF = pd.concat([totalDF, scoreColumns], axis=1)
 
 # L'étape de randomization à présent
-print "Randomization de la base : "
+print "Randomization de la base"
 sys.stdout.flush() 
 totalDF = randomizeDataFrame(totalDF)
 
 # Obtention des rankings pour chaque joueur et chaque match
-print "Obtention des rankings"
+print "Obtention des rankings pour chaque match"
 sys.stdout.flush()
 rankingsPlayerAColumns = totalDF.apply(lambda x : getPlayerRanking(x["playerA"], pd.to_datetime(x["event_time"], format="%Y-%m-%d %H:%M:%S.%f"), rankingsDF), axis=1)
 rankingsPlayerAColumns.rename(columns={"delay": "a_delay", "rank": "a_rank", "points": "a_points"}, inplace=True)
@@ -280,5 +272,7 @@ rankingsPlayerBColumns.rename(columns={"delay": "b_delay", "rank": "b_rank", "po
 totalDF = pd.concat([totalDF, rankingsPlayerAColumns, rankingsPlayerBColumns], axis=1)
 
 # Sauvegarde du Df 
+print "Ecriture : " + str(csvOutputFilePath)	
+sys.stdout.flush()
 totalDF.to_csv(csvOutputFilePath)
 

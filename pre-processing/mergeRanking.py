@@ -12,6 +12,9 @@ from pandas import Series, DataFrame
 import pandas as pd 
 import numpy as np
 
+import extendedSysPath
+from config import Config as conf
+
 def findLink(line):
 	if pd.isnull(line['link_x']):
 		return line['link_y']
@@ -30,4 +33,4 @@ for i in range(1,124):
 	data['link'] = data.apply(lambda x : findLink(x),axis=1)
 	data.drop(['link_x','link_y'],inplace=True,axis=1)
 
-data.to_csv('Data/playersRank.csv')
+data.to_csv(conf.preProcessedRankingsFilePath)
