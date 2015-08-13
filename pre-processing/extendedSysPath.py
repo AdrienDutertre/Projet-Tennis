@@ -6,7 +6,7 @@ import os, sys
 currentDir = os.path.dirname(__file__)
 
 # Obtention chemins relatifs aux modules que l'on souhaite rendre accessibles
-configDir = os.path.join(currentDir, '../Config')
+configDir = os.path.join(currentDir, '../config')
 
 # S'ils ne sont pas déjà dans le PATH python on les rajoute
 if configDir not in sys.path:
