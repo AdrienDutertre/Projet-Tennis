@@ -10,6 +10,7 @@ from pandas import Series, DataFrame
 import pandas as pd 
 import numpy as np
 import time
+from config import Config as conf
 
 ################################################################################################
 # Some String manipulation functions
@@ -196,7 +197,7 @@ if __name__ == '__main__':
 
 		#extract the data
 		results = extractTournamentInfo(year)
-		data = pd.read_csv("../Data/matches_data_file"+str(year)+".csv")
+		data = pd.read_csv("conf.dataDir/matches_data_file"+str(year)+".csv")
 
 		#format it
 		add = pd.DataFrame(results)
@@ -206,7 +207,7 @@ if __name__ == '__main__':
 		#merge and save
 		newData = pd.concat([data,add])
 		# SAVE IN A COMPLETED VERSION DO NOT OVERWRITE ORIGINAL DATA
-		newData.to_csv("../Data/matches_data_file"+str(year)+"completed.csv",index=False)
+		newData.to_csv("conf.dataDir/matches_data_file"+str(year)+"completed.csv",index=False)
 
 
 
