@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-
-Created on Wed 19 aug 2015
-    
-@author: Ohayon
-
-"""
-
 import requests
 import html5lib
 import unicodedata as uni

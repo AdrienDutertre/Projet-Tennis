@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-
-Created on Sun 1 mar 2015
-    
-@author: Ohayon
-
-"""
 
 import requests
 import html5lib

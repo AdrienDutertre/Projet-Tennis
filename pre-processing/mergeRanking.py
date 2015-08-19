@@ -1,13 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-
-Created on Sun 1 mar 2015
-    
-@author: Ohayon
-
-"""
-
 from pandas import Series, DataFrame
 import pandas as pd 
 import numpy as np
