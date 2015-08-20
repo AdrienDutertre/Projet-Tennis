@@ -10,10 +10,7 @@ from pandas import Series, DataFrame
 import pandas as pd 
 import numpy as np
 import time
-<<<<<<< HEAD
-=======
 
->>>>>>> b23450699c778a664c5ce1f0aa3ce25ee331a3f9
 import extendedSysPath
 from config import Config as conf
 
@@ -204,11 +201,7 @@ if __name__ == '__main__':
 
 		#extract the data
 		results = extractTournamentInfo(year)
-<<<<<<< HEAD
-		data = pd.read_csv(conf.dataDir + "/matches_data_file"+str(year)+".csv")
-=======
 		data = pd.read_csv(conf.dataDir + "/matches_data_file" +str(year)+ ".csv")
->>>>>>> b23450699c778a664c5ce1f0aa3ce25ee331a3f9
 
 		#format it
 		add = pd.DataFrame(results)
@@ -218,11 +211,7 @@ if __name__ == '__main__':
 		#merge and save
 		newData = pd.concat([data,add])
 		# SAVE IN A COMPLETED VERSION DO NOT OVERWRITE ORIGINAL DATA
-<<<<<<< HEAD
-		newData.to_csv(conf.dataDir + "/matches_data_file"+str(year)+"completed.csv",index=False)
-=======
 		newData.to_csv(conf.dataDir + "/matches_data_file"+str(year)+".csv",index=False)
->>>>>>> b23450699c778a664c5ce1f0aa3ce25ee331a3f9
 
 
 
