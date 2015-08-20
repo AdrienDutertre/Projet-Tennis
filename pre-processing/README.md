@@ -39,6 +39,7 @@ Script | Description
 ------------ | -------------
 extractRanking | Obtention des classements des joueurs par blocs via crawling
 mergeRanking | Fusion des différents blocs de classements en un seul
+extractMissingTournaments | Rajout du tournoi World Tour
 extractPlayersInfo | Obtention des infos des joueurs et jointure avec leurs classements
 getMatchsWithRankings | Obtention des matchs avec jointure vers les classements pour chaque match
 createSqlTables (TO-DO) | Création du schéma SQL représentant les données pré-traitées
