@@ -10,6 +10,8 @@ from pandas import Series, DataFrame
 import pandas as pd 
 import numpy as np
 import time
+
+import extendedSysPath
 from config import Config as conf
 
 ################################################################################################
@@ -101,7 +103,9 @@ def extractMatchInfo(match,year):
 	# find the score and format it
 	tmp = cleaner.sub("",match.find("td", class_="day-table-score").text).split()
 	for i in range(len(tmp)):
-		if len(tmp[i]) == 3:
+		if  len(tmp[i]) == 4:
+			tmp[i] = tmp[i][0] + "-" + tmp[i][1] +"(" + tmp[i][2] + tmp[i][3] +")"
+		elif len(tmp[i]) == 3:
 			tmp[i] = tmp[i][0] + "-" + tmp[i][1] +"(" + tmp[i][2] + ")"
 		elif len(tmp[i]) == 2:
 			tmp[i] = tmp[i][0] + "-" + tmp[i][1]
@@ -191,13 +195,13 @@ def extractMatchInfo(match,year):
 
 if __name__ == '__main__':
 
-	for year in range(1991,2015):
+	for year in range(2008,2015):
 
 		print "crawling year " + str(year)
 
 		#extract the data
 		results = extractTournamentInfo(year)
-		data = pd.read_csv("conf.dataDir/matches_data_file"+str(year)+".csv")
+		data = pd.read_csv(conf.dataDir + "/matches_data_file" +str(year)+ ".csv")
 
 		#format it
 		add = pd.DataFrame(results)
@@ -207,7 +211,7 @@ if __name__ == '__main__':
 		#merge and save
 		newData = pd.concat([data,add])
 		# SAVE IN A COMPLETED VERSION DO NOT OVERWRITE ORIGINAL DATA
-		newData.to_csv("conf.dataDir/matches_data_file"+str(year)+"completed.csv",index=False)
+		newData.to_csv(conf.dataDir + "/matches_data_file"+str(year)+".csv",index=False)
 
 
 
