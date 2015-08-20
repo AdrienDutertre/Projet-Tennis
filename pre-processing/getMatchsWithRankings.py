@@ -90,30 +90,32 @@ def getScoreColumns(row) :
 		for i in range(nbSets) :
 
 			# Récupération des scores des 2 joueurs dans le set courant
-			groups = re.match(regex, setsRaw[i].lstrip()).groups()
-			sets["a_set"+str(i+1)] = int(groups[0])
-			sets["b_set"+str(i+1)] = int(groups[1])
-			if sets["a_set"+str(i+1)] > sets["b_set"+str(i+1)] : 
-				nbSetsWonByA += 1
-			
-			# Gestion d'un tie-break...
-			if groups[3] is not None : 
-				# ...remporté par playerA
-				if sets["a_set"+str(i+1)] == 7 :
-					sets["a_tb_set"+str(i+1)] = 7 if int(groups[3]) <= 5 else int(groups[3]) + 2
-					sets["b_tb_set"+str(i+1)] = int(groups[3]) 
-				# ...remporté par playerB
+			if "RET" not in setsRaw[i] :
+
+				groups = re.match(regex, setsRaw[i].lstrip()).groups()
+				sets["a_set"+str(i+1)] = int(groups[0])
+				sets["b_set"+str(i+1)] = int(groups[1])
+				if sets["a_set"+str(i+1)] > sets["b_set"+str(i+1)] : 
+					nbSetsWonByA += 1
+				
+				# Gestion d'un tie-break...
+				if groups[3] is not None : 
+					# ...remporté par playerA
+					if sets["a_set"+str(i+1)] == 7 :
+						sets["a_tb_set"+str(i+1)] = 7 if int(groups[3]) <= 5 else int(groups[3]) + 2
+						sets["b_tb_set"+str(i+1)] = int(groups[3]) 
+					# ...remporté par playerB
+					else : 
+						sets["b_tb_set"+str(i+1)] = 7 if int(groups[3]) <= 5 else int(groups[3]) + 2
+						sets["a_tb_set"+str(i+1)] = int(groups[3])
+
 				else : 
-					sets["b_tb_set"+str(i+1)] = 7 if int(groups[3]) <= 5 else int(groups[3]) + 2
-					sets["a_tb_set"+str(i+1)] = int(groups[3])
+					sets["a_tb_set"+str(i+1)] = 0 
+					sets["b_tb_set"+str(i+1)] = 0
 
-			else : 
-				sets["a_tb_set"+str(i+1)] = 0 
-				sets["b_tb_set"+str(i+1)] = 0
-
-				# Test pour bien vérifier que le set est allé au bout 
-				if not(abs(int(groups[0]) - int(groups[1])) >= 2 and max(int(groups[0]), int(groups[1])) >= 6) :
-					comment = "RET"
+					# Test pour bien vérifier que le set est allé au bout 
+					if not(abs(int(groups[0]) - int(groups[1])) >= 2 and max(int(groups[0]), int(groups[1])) >= 6) :
+						comment = "RET"
 
 		# Test pour vérifier que A a bien remporté suffisamment de set 
 		if nbSetsWonByA < nbSetsForAVictory :
