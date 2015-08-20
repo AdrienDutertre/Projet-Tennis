@@ -54,6 +54,7 @@ def createRankingsTable(playersDF, rankingsFilePath, sqlConn) :
 	
 	# Merge avec playersDF pour avoir les id
 	playersDF["playerId"] = playersDF.index
+	rankingsDF["playerName"] = rankingsDF.playerName.apply(lambda x : (x.split(",")[1] + " " + x.split(",")[0]).strip())
 	idDF = playersDF[["playername", "playerId"]].rename(columns={"playername":"playerName"})
 	rankingsDF = rankingsDF.merge(idDF).drop("playerName", axis=1)
 
