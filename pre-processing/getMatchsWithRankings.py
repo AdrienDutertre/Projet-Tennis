@@ -12,7 +12,7 @@ from config import Config as conf
 
 def concatenateAllYears(years) : 
 
-	filePathes = [conf.dataDir+"/matches_data_file"+str(year)+"completed.csv" for year in years]
+	filePathes = [conf.dataDir+"/matches_data_file"+str(year)+".csv" for year in years]
 	dataframes = [pd.read_csv(filepath) for filepath in filePathes]
 	return pd.concat(dataframes, ignore_index=True)
 
