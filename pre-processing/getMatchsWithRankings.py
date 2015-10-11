@@ -12,7 +12,7 @@ from config import Config as conf
 
 def concatenateAllYears(years) : 
 
-	filePathes = [conf.dataDir+"/matches_data_file"+str(year)+".csv" for year in years]
+	filePathes = [conf.dataDir+"/matches_data_file"+str(year)+"completed.csv" for year in years]
 	dataframes = [pd.read_csv(filepath) for filepath in filePathes]
 	return pd.concat(dataframes, ignore_index=True)
 
@@ -181,7 +181,7 @@ def getPlayerRanking(player, dateAsked, rankingsDF) :
 
 	# Cas où le joueur n'est pas dans le csv ==> return None
 	if player not in rankingsDF.index : 
-		return None
+		return pd.Series({"rank": np.nan, "points": np.nan, "delay": np.nan})
 
 	# Récupération de la série correspondant aux classements antérieurs du joueur
 	playerRankings = rankingsDF.ix[player]
@@ -190,7 +190,7 @@ def getPlayerRanking(player, dateAsked, rankingsDF) :
 
 	# Cas où il n'y a pas de classement antérieur ==> return None
 	if len(priorRankings) < 1 : 
-		return None
+		return pd.Series({"rank": np.nan, "points": np.nan, "delay": np.nan})
 
 	# Enfin on garde la plus récente 
 	lastRankAndPoints = priorRankings[-1].split("::")
@@ -202,6 +202,26 @@ def getPlayerRanking(player, dateAsked, rankingsDF) :
 	accuracy = (dateAsked - lastDate).days
 
 	return pd.Series({"rank": lastRank, "points": lastPoints, "delay": accuracy})
+
+def cleanNumber(x):
+	numberExtract = re.compile(r'\((\d{1,3})')
+	if not pd.isnull(x):
+		return numberExtract.search(x).group(1)
+	return x
+
+
+def getPlayerInfo(player,playersDF,prefix):
+	# Cas où le joueur n'est pas dans le csv ==> return None
+	if player not in playersDF.playerName.values :
+		return pd.Series({prefix+'_age' : np.nan, prefix+'_birthplace' : np.nan, prefix+'_residence' : np.nan, prefix+'_height' : np.nan, prefix+'_weight' : np.nan, prefix+'_plays' : np.nan, prefix+'_turned pro' : np.nan, prefix+'_coach' : np.nan, prefix+'_country' : np.nan})
+	
+	tmp = playersDF[playersDF.playerName == player]
+	tmp.columns = [prefix + '_' + x.lower() for x in tmp.columns]
+
+	return pd.Series(tmp.drop(prefix + '_' + 'playername',axis=1).to_dict('records')[0])
+
+
+
 
 
 # Paramètres du programme
@@ -254,7 +274,7 @@ sys.stdout.flush()
 totalDF["category"] = totalDF.apply(getCategory, axis=1)
 
 # Extraction du score 
-print "Extraction du score : "
+print "Extraction du score"
 sys.stdout.flush() 
 scoreColumns = totalDF.apply(getScoreColumns, axis=1)
 totalDF = pd.concat([totalDF, scoreColumns], axis=1)
@@ -272,6 +292,18 @@ rankingsPlayerAColumns.rename(columns={"delay": "a_delay", "rank": "a_rank", "po
 rankingsPlayerBColumns = totalDF.apply(lambda x : getPlayerRanking(x["playerB"], pd.to_datetime(x["event_time"], format="%Y-%m-%d %H:%M:%S.%f"), rankingsDF), axis=1)
 rankingsPlayerBColumns.rename(columns={"delay": "b_delay", "rank": "b_rank", "points": "b_points"}, inplace=True)
 totalDF = pd.concat([totalDF, rankingsPlayerAColumns, rankingsPlayerBColumns], axis=1)
+
+print "Ajout des infos des joueurs"
+sys.stdout.flush()
+playersDF = pd.read_csv(conf.preProcessedPlayersFilePath,usecols=[u'playerName', u'Age', u'Birthplace', u'Residence', u'Height', u'Weight', u'Plays', u'Turned Pro', u'Coach', u'Country'])
+playersDF['Height'] = playersDF['Height'].apply(cleanNumber)
+playersDF['Weight'] = playersDF['Weight'].apply(cleanNumber)
+playersDF["playerName"] = playersDF.apply(normalizePlayerName, axis=1)
+infoPlayerAColumns = totalDF.apply(lambda x : getPlayerInfo(x["playerA"], playersDF,'a'), axis=1)
+infoPlayerBColumns = totalDF.apply(lambda x : getPlayerInfo(x["playerB"], playersDF,'b'), axis=1)
+totalDF = pd.concat([totalDF, infoPlayerAColumns, infoPlayerBColumns], axis=1)
+
+
 
 # Sauvegarde du Df 
 print "Ecriture : " + str(csvOutputFilePath)	
